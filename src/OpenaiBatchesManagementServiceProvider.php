@@ -10,11 +10,11 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
+use Moontechs\OpenaiBatchesManagement\Commands\OpenaiBatchesManagementCommand;
+use Moontechs\OpenaiBatchesManagement\Testing\TestsOpenaiBatchesManagement;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Moontechs\OpenaiBatchesManagement\Commands\OpenaiBatchesManagementCommand;
-use Moontechs\OpenaiBatchesManagement\Testing\TestsOpenaiBatchesManagement;
 
 class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
 {
