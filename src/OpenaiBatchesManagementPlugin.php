@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Moontechs\OpenaiBatchesManagement;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class OpenaiBatchesManagementPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'openai-batches-management';
     }
 
     public function register(Panel $panel): void

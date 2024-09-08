@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Moontechs\OpenaiBatchesManagement\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class OpenaiBatchesManagementCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'openai-batches-management';
 
     public $description = 'My command';
 
