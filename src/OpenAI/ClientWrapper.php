@@ -32,9 +32,11 @@ class ClientWrapper
     public function downloadStreamTo(string $fileId, string $path): void
     {
         $this->httpClient->request(
-            'GET', "https://api.openai.com/v1/files/$fileId/content", [
+            'GET',
+            "https://api.openai.com/v1/files/$fileId/content",
+            [
                 'headers' => [
-                    'Authorization' => 'Bearer '.Crypt::decrypt($this->key),
+                    'Authorization' => 'Bearer ' . Crypt::decrypt($this->key),
                 ],
                 'sink' => $path,
             ]
