@@ -61,6 +61,6 @@ class OpenAIManagementBatch extends Model
 
     public function getDownloadedFilePath(): string
     {
-        return config('openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
+        return config('openai-management.download-directory') . '/' . Arr::get($this->batch_data, 'output_file_id') . '.jsonl';
     }
 }
