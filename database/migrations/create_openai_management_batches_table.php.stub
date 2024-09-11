@@ -1,0 +1,27 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('openai_management_batches', function (Blueprint $table) {
+            $table->id();
+
+            $table->jsonb('batch_data')->nullable();
+            $table->string('endpoint');
+            $table->string('completion_window');
+            $table->foreignId('file_id')->constrained('openai_management_files');
+
+            $table->timestamps();
+        });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('openai_management_batches');
+    }
+};

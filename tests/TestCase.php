@@ -14,7 +14,7 @@ use Filament\Tables\TablesServiceProvider;
 use Filament\Widgets\WidgetsServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Livewire\LivewireServiceProvider;
-use Moontechs\OpenaiBatchesManagement\OpenaiBatchesManagementServiceProvider;
+use Moontechs\OpenaiBatchesManagement\OpenAIManagementServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 
@@ -25,7 +25,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Moontechs\\OpenaiBatchesManagement\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
+            fn (string $modelName) => 'Moontechs\\OpenaiBatchesManagement\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 
@@ -44,7 +44,7 @@ class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
             WidgetsServiceProvider::class,
-            OpenaiBatchesManagementServiceProvider::class,
+            OpenAIManagementServiceProvider::class,
         ];
     }
 

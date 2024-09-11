@@ -1,6 +1,6 @@
 <?php
 
-namespace Moontechs\OpenaiBatchesManagement\Database\Factories;
+namespace Moontechs\OpenAIManagement\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 

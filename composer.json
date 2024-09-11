@@ -1,15 +1,15 @@
 {
-    "name": "moontechs/openai-batches-management",
+    "name": "moontechs/openai-management",
     "description": "OpenAI files and batches management ",
     "keywords": [
         "moontechs",
         "laravel",
-        "openai-batches-management"
+        "openai-management"
     ],
-    "homepage": "https://github.com/moontechs/openai-batches-management",
+    "homepage": "https://github.com/moontechs/openai-management",
     "support": {
-        "issues": "https://github.com/moontechs/openai-batches-management/issues",
-        "source": "https://github.com/moontechs/openai-batches-management"
+        "issues": "https://github.com/moontechs/openai-management/issues",
+        "source": "https://github.com/moontechs/openai-management"
     },
     "license": "MIT",
     "authors": [
@@ -21,8 +21,11 @@
     ],
     "require": {
         "php": "^8.1",
+        "brick/json-mapper": "^0.1.1",
         "filament/filament": "^3.0",
-        "spatie/laravel-package-tools": "^1.15.0"
+        "openai-php/client": "^0.10.1",
+        "spatie/laravel-package-tools": "^1.15.0",
+        "symfony/http-client": "^7.1"
     },
     "require-dev": {
         "laravel/pint": "^1.0",
@@ -38,13 +41,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Moontechs\\OpenaiBatchesManagement\\": "src/",
-            "Moontechs\\OpenaiBatchesManagement\\Database\\Factories\\": "database/factories/"
+            "Moontechs\\OpenAIManagement\\": "src/",
+            "Moontechs\\OpenAIManagement\\Database\\Factories\\": "database/factories/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Moontechs\\OpenaiBatchesManagement\\Tests\\": "tests/"
+            "Moontechs\\OpenAIManagement\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -58,16 +61,17 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "php-http/discovery": true
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Moontechs\\OpenaiBatchesManagement\\OpenaiBatchesManagementServiceProvider"
+                "Moontechs\\OpenAIManagement\\OpenAIManagementServiceProvider"
             ],
             "aliases": {
-                "OpenaiBatchesManagement": "Moontechs\\OpenaiBatchesManagement\\Facades\\OpenaiBatchesManagement"
+                "OpenAIManagement": "Moontechs\\OpenAIManagement\\Facades\\OpenAIManagement"
             }
         }
     },

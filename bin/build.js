@@ -46,5 +46,5 @@ const defaultOptions = {
 compile({
     ...defaultOptions,
     entryPoints: ['./resources/js/index.js'],
-    outfile: './resources/dist/openai-batches-management.js',
+    outfile: './resources/dist/openai-management.js',
 })

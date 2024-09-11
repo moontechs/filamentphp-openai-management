@@ -1,6 +1,6 @@
 <?php
 
-namespace Moontechs\OpenaiBatchesManagement\Testing;
+namespace Moontechs\OpenAIManagement\Testing;
 
 use Livewire\Features\SupportTesting\Testable;
 

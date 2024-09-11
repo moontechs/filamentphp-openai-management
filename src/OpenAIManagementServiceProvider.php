@@ -1,6 +1,6 @@
 <?php
 
-namespace Moontechs\OpenaiBatchesManagement;
+namespace Moontechs\OpenAIManagement;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -10,17 +10,19 @@ use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
-use Moontechs\OpenaiBatchesManagement\Commands\OpenaiBatchesManagementCommand;
-use Moontechs\OpenaiBatchesManagement\Testing\TestsOpenaiBatchesManagement;
+use Moontechs\OpenAIManagement\Commands\OpenAIManagementBatchesUpdateCommand;
+use Moontechs\OpenAIManagement\Commands\OpenAIManagementFilesUpdateCommand;
+use Moontechs\OpenAIManagement\Commands\OpenAIManagementProcessedFilesDownloadCommand;
+use Moontechs\OpenAIManagement\Testing\TestsOpenaiBatchesManagement;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
+class OpenAIManagementServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'openai-batches-management';
+    public static string $name = 'openai-management';
 
-    public static string $viewNamespace = 'openai-batches-management';
+    public static string $viewNamespace = 'openai-management';
 
     public function configurePackage(Package $package): void
     {
@@ -36,7 +38,7 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('moontechs/openai-batches-management');
+                    ->askToStarRepoOnGitHub('moontechs/openai-management');
             });
 
         $configFileName = $package->shortName();
@@ -78,10 +80,10 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
 
         // Handle Stubs
         if (app()->runningInConsole()) {
-            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
+            foreach (app(Filesystem::class)->files(__DIR__.'/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/openai-batches-management/{$file->getFilename()}"),
-                ], 'openai-batches-management-stubs');
+                    $file->getRealPath() => base_path("stubs/openai-management/{$file->getFilename()}"),
+                ], 'openai-management-stubs');
             }
         }
 
@@ -91,7 +93,7 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'moontechs/openai-batches-management';
+        return 'moontechs/openai-management';
     }
 
     /**
@@ -101,8 +103,8 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('openai-batches-management', __DIR__ . '/../resources/dist/components/openai-batches-management.js'),
-            Css::make('openai-batches-management-styles', __DIR__ . '/../resources/dist/openai-batches-management.css'),
-            Js::make('openai-batches-management-scripts', __DIR__ . '/../resources/dist/openai-batches-management.js'),
+            // Css::make('openai-batches-management-styles', __DIR__ . '/../resources/dist/openai-batches-management.css'),
+            // Js::make('openai-batches-management-scripts', __DIR__ . '/../resources/dist/openai-batches-management.js'),
         ];
     }
 
@@ -112,7 +114,9 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            OpenaiBatchesManagementCommand::class,
+            OpenAIManagementFilesUpdateCommand::class,
+            OpenAIManagementBatchesUpdateCommand::class,
+            OpenAIManagementProcessedFilesDownloadCommand::class,
         ];
     }
 
@@ -146,7 +150,9 @@ class OpenaiBatchesManagementServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_openai-batches-management_table',
+            'create_openai_management_projects_table',
+            'create_openai_management_files_table',
+            'create_openai_management_batches_table',
         ];
     }
 }
