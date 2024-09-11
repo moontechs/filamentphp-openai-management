@@ -99,7 +99,8 @@ class OpenAIManagementFilesUpdateCommand extends Command
                             )->path($fileModel->local_file_path_name),
                             'r',
                         ),
-                    ]);
+                    ]
+                );
             } catch (ErrorException $exception) {
                 $this->error('Error uploading a file: '.$exception->getMessage());
                 Log::error('Error uploading a file', [
