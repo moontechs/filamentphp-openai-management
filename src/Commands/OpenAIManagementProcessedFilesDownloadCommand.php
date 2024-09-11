@@ -45,7 +45,7 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
             ->get();
 
         foreach ($batches as $batchModel) {
-            $filePath = config('openai-management.download-directory').'/'.$batchModel->batch_data['output_file_id'].'.jsonl';
+            $filePath = $batchModel->getDownloadedFilePath();
 
             if ($batchModel->fileDownloaded()) {
                 $this->info('File already exists: '.$batchModel->batch_data['output_file_id']);
