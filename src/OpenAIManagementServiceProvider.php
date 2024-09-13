@@ -20,9 +20,9 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class OpenAIManagementServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'openai-management';
+    public static string $name = 'filamentphp-openai-management';
 
-    public static string $viewNamespace = 'openai-management';
+    public static string $viewNamespace = 'filamentphp-openai-management';
 
     public function configurePackage(Package $package): void
     {
@@ -38,7 +38,7 @@ class OpenAIManagementServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub('moontechs/openai-management');
+                    ->askToStarRepoOnGitHub('moontechs/filamentphp-openai-management');
             });
 
         $configFileName = $package->shortName();
@@ -82,8 +82,8 @@ class OpenAIManagementServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__.'/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/openai-management/{$file->getFilename()}"),
-                ], 'openai-management-stubs');
+                    $file->getRealPath() => base_path("stubs/filamentphp-openai-management/{$file->getFilename()}"),
+                ], 'filamentphp-openai-management-stubs');
             }
         }
 
@@ -93,7 +93,7 @@ class OpenAIManagementServiceProvider extends PackageServiceProvider
 
     protected function getAssetPackageName(): ?string
     {
-        return 'moontechs/openai-management';
+        return 'moontechs/filamentphp-openai-management';
     }
 
     /**

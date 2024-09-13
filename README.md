@@ -12,20 +12,20 @@ This package is used to easily manage files and batches via the OpenAI API. The 
 You can install the package via composer:
 
 ```bash
-composer require moontechs/openai-management
+composer require moontechs/filamentphp-openai-management
 ```
 
 You need to publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="openai-management-migrations"
+php artisan vendor:publish --tag="filamentphp-openai-management-migrations"
 php artisan migrate
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="openai-management-config"
+php artisan vendor:publish --tag="filamentphp-openai-management-config"
 ```
 
 This is the contents of the published config file:

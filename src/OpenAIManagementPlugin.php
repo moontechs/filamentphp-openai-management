@@ -11,7 +11,7 @@ class OpenAIManagementPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'openai-management';
+        return 'filamentphp-openai-management';
     }
 
     public function register(Panel $panel): void
