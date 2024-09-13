@@ -2,16 +2,20 @@
     "name": "moontechs/openai-management",
     "description": "OpenAI files and batches management ",
     "keywords": [
-        "moontechs",
         "laravel",
-        "openai-management"
+        "laravel-package",
+        "filamentphp",
+        "filamentphp-plugin",
+        "openai-management",
+        "openai",
+        "openai-ui"
     ],
     "homepage": "https://github.com/moontechs/openai-management",
     "support": {
         "issues": "https://github.com/moontechs/openai-management/issues",
         "source": "https://github.com/moontechs/openai-management"
     },
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "authors": [
         {
             "name": "Moontechs",
