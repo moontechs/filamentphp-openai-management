@@ -27,7 +27,7 @@ class CreateOpenAIManagementFiles extends CreateRecord
                     ->required()
                     ->relationship('project', 'name'),
                 Select::make('purpose')
-                    ->options(config('openai-management.select-options.file-purpose'))
+                    ->options(config('filamentphp-openai-management.select-options.file-purpose'))
                     ->required(),
             ]),
 
@@ -41,8 +41,8 @@ class CreateOpenAIManagementFiles extends CreateRecord
                 FileUpload::make('files')
                     ->storeFileNamesIn('originalFileNames')
                     ->multiple()
-                    ->disk(config('openai-management.disk'))
-                    ->directory(config('openai-management.directory'))
+                    ->disk(config('filamentphp-openai-management.disk'))
+                    ->directory(config('filamentphp-openai-management.directory'))
                     ->required(),
             ]),
 

@@ -31,7 +31,7 @@ class OpenAIManagementBatch extends Model
     {
         static::deleted(function (OpenAIManagementBatch $batch) {
             if ($batch->batch_data !== null) {
-                Storage::disk(config('openai-management.disk'))->delete($batch->getDownloadedFilePath());
+                Storage::disk(config('filamentphp-openai-management.disk'))->delete($batch->getDownloadedFilePath());
             }
         });
     }
@@ -43,7 +43,7 @@ class OpenAIManagementBatch extends Model
 
     public function getDownloadedFileFullPath(): string
     {
-        return Storage::disk(config('openai-management.disk'))
+        return Storage::disk(config('filamentphp-openai-management.disk'))
             ->path($this->getDownloadedFilePath());
     }
 
@@ -54,6 +54,6 @@ class OpenAIManagementBatch extends Model
 
     public function getDownloadedFilePath(): string
     {
-        return config('openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
+        return config('filamentphp-openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
     }
 }

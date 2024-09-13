@@ -22,7 +22,7 @@ class OpenAIManagementBatchRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\Select::make('endpoint')
-                    ->options(config('openai-management.select-options.batch-endpoint'))
+                    ->options(config('filamentphp-openai-management.select-options.batch-endpoint'))
                     ->required(),
                 Forms\Components\TextInput::make('completion_window')
                     ->required()

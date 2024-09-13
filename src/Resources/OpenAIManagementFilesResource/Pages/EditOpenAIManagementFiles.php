@@ -38,7 +38,7 @@ class EditOpenAIManagementFiles extends EditRecord
                     ->relationship('project', 'name')
                     ->disabled(fn ($record) => $record->file_data !== null),
                 Select::make('purpose')
-                    ->options(config('openai-management.select-options.file-purpose'))
+                    ->options(config('filamentphp-openai-management.select-options.file-purpose'))
                     ->disabled(fn ($record) => $record->file_data !== null),
             ]),
 

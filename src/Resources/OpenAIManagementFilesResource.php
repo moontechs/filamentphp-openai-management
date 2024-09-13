@@ -74,7 +74,7 @@ class OpenAIManagementFilesResource extends Resource
                     ->options(fn (OpenAIManagementFileRepository $openAIManagementFileRepository) => $openAIManagementFileRepository->getUniqueTags())
                     ->multiple(),
                 Tables\Filters\SelectFilter::make('purpose')
-                    ->options(fn () => config('openai-management.select-options.file-purpose')),
+                    ->options(fn () => config('filamentphp-openai-management.select-options.file-purpose')),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

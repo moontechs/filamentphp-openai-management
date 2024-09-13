@@ -54,7 +54,7 @@ class OpenAIManagementFile extends Model
             }
 
             if ($fileModel->local_file_path_name) {
-                Storage::disk(config('openai-management.disk'))->delete($fileModel->local_file_path_name);
+                Storage::disk(config('filamentphp-openai-management.disk'))->delete($fileModel->local_file_path_name);
             }
         });
     }
