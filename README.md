@@ -73,7 +73,7 @@ use Moontechs\OpenAIManagement\OpenAIManagementPlugin;
 ### UI (step by step flow)
 
 1. **Add a project**
-   * Reffer to the OpenAI [documentation](https://help.openai.com/en/articles/9186755-managing-your-work-in-the-api-platform-with-projects) to create new projects or obtain the ID and key of an existing one.
+   * Reffer to the OpenAI [documentation](https://help.openai.com/en/articles/9186755-managing-your-work-in-the-api-platform-with-projects) to create new projects or obtain the ID and [key](https://help.openai.com/en/articles/9186755-managing-your-work-in-the-api-platform-with-projects#h_9ac8d4e902) of an existing one.
    * Note: The OpenAI key will be encrypted. Do not regenerate the Laravel `APP_KEY`.
 
 ![files_list](./screenshots/create_project.png)
