@@ -21,7 +21,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
         $this->info('Updating files...');
 
         foreach (OpenAIManagementProject::all() as $projectModel) {
-            $this->info('Updating files from project: ' . $projectModel->name);
+            $this->info('Updating files from project: '.$projectModel->name);
 
             $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
 
@@ -33,7 +33,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
         $this->info('Uploading files...');
 
         foreach (OpenAIManagementProject::all() as $projectModel) {
-            $this->info('Uploading files from project: ' . $projectModel->name);
+            $this->info('Uploading files from project: '.$projectModel->name);
 
             $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
 
@@ -50,7 +50,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
         try {
             $listResponse = $openAIClient->files()->list();
         } catch (ErrorException $exception) {
-            $this->error('Error getting files list: ' . $exception->getMessage());
+            $this->error('Error getting files list: '.$exception->getMessage());
             Log::error('Error getting files list', [
                 'error' => $exception->getMessage(),
             ]);
@@ -81,7 +81,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
 
         foreach ($files as $fileModel) {
             if (! $fileModel->local_file_path_name) {
-                $this->error('Error uploading file. File does not exist ID: ' . $fileModel->id);
+                $this->error('Error uploading file. File does not exist ID: '.$fileModel->id);
                 Log::error('Error uploading file. File does not exist.', [
                     'fileId' => $fileModel->id,
                 ]);
@@ -102,7 +102,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
                     ]
                 );
             } catch (ErrorException $exception) {
-                $this->error('Error uploading a file: ' . $exception->getMessage());
+                $this->error('Error uploading a file: '.$exception->getMessage());
                 Log::error('Error uploading a file', [
                     'fileId' => $fileModel->id,
                     'error' => $exception->getMessage(),
@@ -112,7 +112,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
             }
 
             if ($response->status === 'error') {
-                $this->error('Error uploading file: ' . $fileModel->local_file_path_name);
+                $this->error('Error uploading file: '.$fileModel->local_file_path_name);
                 Log::error('Error uploading file', [
                     'file' => $fileModel->local_file_path_name,
                     'response' => $response->toArray(),

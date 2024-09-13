@@ -6,11 +6,12 @@ use Filament\Actions;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\KeyValue;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
 use Moontechs\OpenAIManagement\Actions\DeleteFileFromOpenAIAction;
-use Moontechs\OpenAIManagement\Models\OpenAIManagementFile;
+use Moontechs\OpenAIManagement\Repositories\OpenAIManagementFileRepository;
 use Moontechs\OpenAIManagement\Resources\OpenAIManagementFilesResource;
 
 class EditOpenAIManagementFiles extends EditRecord
@@ -37,8 +38,14 @@ class EditOpenAIManagementFiles extends EditRecord
                     ->relationship('project', 'name')
                     ->disabled(fn ($record) => $record->file_data !== null),
                 Select::make('purpose')
-                    ->options(OpenAIManagementFile::$purposeOptions)
+                    ->options(config('openai-management.select-options.file-purpose'))
                     ->disabled(fn ($record) => $record->file_data !== null),
+            ]),
+
+            Grid::make()->columns(1)->schema([
+                TagsInput::make('tags')->suggestions(function (OpenAIManagementFileRepository $openAIManagementFileRepository) {
+                    return $openAIManagementFileRepository->getUniqueTags();
+                }),
             ]),
 
             Grid::make()->columns(1)->schema([

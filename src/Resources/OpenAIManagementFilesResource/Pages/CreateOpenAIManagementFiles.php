@@ -5,17 +5,17 @@ namespace Moontechs\OpenAIManagement\Resources\OpenAIManagementFilesResource\Pag
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\TagsInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementFile;
+use Moontechs\OpenAIManagement\Repositories\OpenAIManagementFileRepository;
 use Moontechs\OpenAIManagement\Resources\OpenAIManagementFilesResource;
 
 class CreateOpenAIManagementFiles extends CreateRecord
 {
     protected static string $resource = OpenAIManagementFilesResource::class;
-
-    // protected static ?string $title = 'Create OpenAI Files';
 
     public function form(Form $form): Form
     {
@@ -27,8 +27,14 @@ class CreateOpenAIManagementFiles extends CreateRecord
                     ->required()
                     ->relationship('project', 'name'),
                 Select::make('purpose')
-                    ->options(OpenAIManagementFile::$purposeOptions)
+                    ->options(config('openai-management.select-options.file-purpose'))
                     ->required(),
+            ]),
+
+            Grid::make()->columns(1)->schema([
+                TagsInput::make('tags')->suggestions(function (OpenAIManagementFileRepository $openAIManagementFileRepository) {
+                    return $openAIManagementFileRepository->getUniqueTags();
+                }),
             ]),
 
             Grid::make()->columns(1)->schema([
@@ -53,6 +59,7 @@ class CreateOpenAIManagementFiles extends CreateRecord
                 'uploaded_file_path_name' => $data['originalFileNames'][$generatedFilePathName],
                 'project_id' => $data['project_id'],
                 'purpose' => $data['purpose'],
+                'tags' => $data['tags'],
             ]);
         }
 

@@ -36,6 +36,7 @@ class OpenAIManagementProjectsResource extends Resource
                 Tables\Columns\TextColumn::make('openai_project_id')
                     ->label('OpenAI Project ID'),
             ])
+            ->defaultPaginationPageOption(25)
             ->filters([
                 //
             ])

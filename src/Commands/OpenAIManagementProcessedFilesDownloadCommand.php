@@ -23,7 +23,7 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
         }
 
         foreach (OpenAIManagementProject::all() as $projectModel) {
-            $this->info('Downloading files from project: ' . $projectModel->name);
+            $this->info('Downloading files from project: '.$projectModel->name);
 
             $openAIClientWrapper = ClientWrapper::make($projectModel);
 
@@ -48,7 +48,7 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
             $filePath = $batchModel->getDownloadedFilePath();
 
             if ($batchModel->fileDownloaded()) {
-                $this->info('File already exists: ' . $batchModel->batch_data['output_file_id']);
+                $this->info('File already exists: '.$batchModel->batch_data['output_file_id']);
 
                 continue;
             }

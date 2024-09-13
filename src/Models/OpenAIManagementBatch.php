@@ -13,13 +13,6 @@ class OpenAIManagementBatch extends Model
 {
     use HasFactory;
 
-    public static $endpointOptions = [
-        '/v1/chat/completions' => '/v1/chat/completions',
-        '/v1/embeddings' => '/v1/embeddings',
-        '/v1/completions' => '/v1/completions',
-
-    ];
-
     protected $table = 'openai_management_batches';
 
     protected $casts = [
@@ -61,6 +54,6 @@ class OpenAIManagementBatch extends Model
 
     public function getDownloadedFilePath(): string
     {
-        return config('openai-management.download-directory') . '/' . Arr::get($this->batch_data, 'output_file_id') . '.jsonl';
+        return config('openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
     }
 }

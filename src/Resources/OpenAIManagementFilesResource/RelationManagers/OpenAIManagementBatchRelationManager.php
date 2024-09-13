@@ -22,16 +22,16 @@ class OpenAIManagementBatchRelationManager extends RelationManager
         return $form
             ->schema([
                 Forms\Components\Select::make('endpoint')
-                    ->options(OpenAIManagementBatch::$endpointOptions)
+                    ->options(config('openai-management.select-options.batch-endpoint'))
                     ->required(),
                 Forms\Components\TextInput::make('completion_window')
                     ->required()
                     ->default('24h')
                     ->maxLength(255),
                 Forms\Components\KeyValue::make('batch_data')
-                    ->visible(fn (string $context) => $context === 'view'),
+                    ->visible(fn (string $context, OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
                 Forms\Components\KeyValue::make('batch_data.request_counts')
-                    ->visible(fn (string $context) => $context === 'view'),
+                    ->visible(fn (string $context, OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
                 Forms\Components\KeyValue::make('batch_data.errors')
                     ->visible(function (string $context, ?OpenAIManagementBatch $record) {
                         if ($context === 'view') {
@@ -68,7 +68,7 @@ class OpenAIManagementBatchRelationManager extends RelationManager
             ])
             ->actions([
                 DownloadProcessedFileAction::make(),
-                Tables\Actions\ViewAction::make(),
+                Tables\Actions\ViewAction::make()->visible(fn ($record) => $record->batch_data !== null),
                 Tables\Actions\EditAction::make()->visible(fn ($record) => $record->batch_data === null),
                 Tables\Actions\DeleteAction::make(),
             ])

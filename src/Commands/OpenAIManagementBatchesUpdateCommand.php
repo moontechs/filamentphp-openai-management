@@ -22,7 +22,7 @@ class OpenAIManagementBatchesUpdateCommand extends Command
         $this->info('Updating batches...');
 
         foreach (OpenAIManagementProject::all() as $projectModel) {
-            $this->info('Updating batches from project: ' . $projectModel->name);
+            $this->info('Updating batches from project: '.$projectModel->name);
 
             $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
 
@@ -34,7 +34,7 @@ class OpenAIManagementBatchesUpdateCommand extends Command
         $this->info('Creating batches...');
 
         foreach (OpenAIManagementProject::all() as $projectModel) {
-            $this->info('Creating batches from project: ' . $projectModel->name);
+            $this->info('Creating batches from project: '.$projectModel->name);
 
             $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
 
@@ -71,7 +71,7 @@ class OpenAIManagementBatchesUpdateCommand extends Command
             ->first();
 
         if ($batchInProgress) {
-            $this->info('One batch is in process ID: ' . $batchInProgress->id);
+            $this->info('One batch is in process ID: '.$batchInProgress->id);
             Log::info('Batch in progress', [
                 'batch' => $batchInProgress->id,
                 'project' => $projectModel->name,
@@ -109,7 +109,7 @@ class OpenAIManagementBatchesUpdateCommand extends Command
                 return;
             }
 
-            $this->error('Error creating batch ID: ' . $nextBatch->id);
+            $this->error('Error creating batch ID: '.$nextBatch->id);
 
             Log::error('Error creating batch', [
                 'fileId' => $nextBatch->file->id,
@@ -117,7 +117,7 @@ class OpenAIManagementBatchesUpdateCommand extends Command
                 'response' => $response->toArray(),
             ]);
         } catch (ErrorException $exception) {
-            $this->error('Error creating batch ID: ' . $nextBatch->id . PHP_EOL . $exception->getMessage());
+            $this->error('Error creating batch ID: '.$nextBatch->id.PHP_EOL.$exception->getMessage());
             Log::error('Error creating batch', [
                 'fileId' => $nextBatch->file->id,
                 'batchId' => $nextBatch->id,

@@ -12,11 +12,10 @@ return new class extends Migration
             $table->id();
 
             $table->jsonb('file_data')->nullable();
-            $table->jsonb('batch_data')->nullable();
             $table->string('purpose');
             $table->string('local_file_path_name')->nullable();
             $table->string('uploaded_file_path_name')->nullable();
-            $table->jsonb('tags')->nullable();
+            $table->jsonb('tags')->default('[]');
             $table->foreignId('project_id')->constrained('openai_management_projects');
 
             $table->timestamps();

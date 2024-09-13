@@ -5,7 +5,6 @@ namespace Moontechs\OpenAIManagement\Resources\OpenAIManagementBatchesResource\P
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\CreateRecord;
-use Moontechs\OpenAIManagement\Models\OpenAIManagementBatch;
 use Moontechs\OpenAIManagement\Resources\OpenAIManagementBatchesResource;
 
 class CreateOpenAIManagementBatches extends CreateRecord
@@ -18,7 +17,7 @@ class CreateOpenAIManagementBatches extends CreateRecord
 
         $form->schema([
             Forms\Components\Select::make('endpoint')
-                ->options(OpenAIManagementBatch::$endpointOptions)
+                ->options(config('openai-management.select-options.batch-endpoint'))
                 ->required(),
             Forms\Components\TextInput::make('completion_window')
                 ->required()
