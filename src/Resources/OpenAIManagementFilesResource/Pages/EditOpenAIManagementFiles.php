@@ -44,7 +44,7 @@ class EditOpenAIManagementFiles extends EditRecord
 
             Grid::make()->columns(1)->schema([
                 TagsInput::make('tags')->suggestions(function (OpenAIManagementFileRepository $openAIManagementFileRepository) {
-                    return $openAIManagementFileRepository->getUniqueTags();
+                    return array_values($openAIManagementFileRepository->getUniqueTags());
                 }),
             ]),
 
@@ -54,6 +54,7 @@ class EditOpenAIManagementFiles extends EditRecord
             ]),
 
             KeyValue::make('file_data')
+                ->visible(fn ($record) => $record->file_data !== null)
                 ->disabled(),
         ]);
 

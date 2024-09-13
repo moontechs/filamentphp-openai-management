@@ -29,9 +29,9 @@ class OpenAIManagementBatchRelationManager extends RelationManager
                     ->default('24h')
                     ->maxLength(255),
                 Forms\Components\KeyValue::make('batch_data')
-                    ->visible(fn (string $context, OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
+                    ->visible(fn (string $context, ?OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
                 Forms\Components\KeyValue::make('batch_data.request_counts')
-                    ->visible(fn (string $context, OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
+                    ->visible(fn (string $context, ?OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
                 Forms\Components\KeyValue::make('batch_data.errors')
                     ->visible(function (string $context, ?OpenAIManagementBatch $record) {
                         if ($context === 'view') {

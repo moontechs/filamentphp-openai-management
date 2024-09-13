@@ -34,11 +34,11 @@ class OpenAIManagementFile extends Model
     protected static function booted(): void
     {
         static::creating(function (OpenAIManagementFile $fileModel) {
-            $fileModel->tags = Arr::sort($fileModel->tags);
+            $fileModel->tags = array_values(Arr::sort($fileModel->tags));
         });
 
         static::updating(function (OpenAIManagementFile $fileModel) {
-            $fileModel->tags = Arr::sort($fileModel->tags);
+            $fileModel->tags = array_values(Arr::sort($fileModel->tags));
         });
 
         static::deleting(function (OpenAIManagementFile $fileModel) {
