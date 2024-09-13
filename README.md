@@ -1,13 +1,11 @@
 # OpenAI files and batches management 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/moontechs/openai-management.svg?style=flat-square)](https://packagist.org/packages/moontechs/openai-management)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/moontechs/openai-management/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/moontechs/openai-management/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/moontechs/openai-management/fix-php-code-styling.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/moontechs/openai-management/actions?query=workflow%3A"Fix+PHP+code+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/moontechs/openai-management.svg?style=flat-square)](https://packagist.org/packages/moontechs/openai-management)
 
+![files_list](./screenshots/files_list.png)
 
-
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package is used to easily manage files and batches via the OpenAI API. The flow is described [here](https://platform.openai.com/docs/guides/batch/overview).
 
 ## Installation
 
@@ -17,7 +15,7 @@ You can install the package via composer:
 composer require moontechs/openai-management
 ```
 
-You can publish and run the migrations with:
+You need to publish and run the migrations with:
 
 ```bash
 php artisan vendor:publish --tag="openai-management-migrations"
@@ -30,43 +28,77 @@ You can publish the config file with:
 php artisan vendor:publish --tag="openai-management-config"
 ```
 
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="openai-management-views"
-```
-
 This is the contents of the published config file:
 
 ```php
 return [
+    'disk' => 'local', // you can customize used disk and upload/download folders
+    'directory' => 'openai-files',
+    'download-directory' => 'openai-files-downloads',
+
+    'select-options' => [
+        'file-purpose' => [
+            'batch' => 'batch',
+            'assistants' => 'assistants',
+            'fine-tune' => 'fine-tune',
+        ],
+        'batch-endpoint' => [
+            '/v1/chat/completions' => '/v1/chat/completions',
+            '/v1/embeddings' => '/v1/embeddings',
+            '/v1/completions' => '/v1/completions',
+        ],
+    ],
 ];
 ```
 
 ## Usage
 
+Add a plugin to your Panel Provider
 ```php
-$openaiBatchesManagement = new Moontechs\OpenaiBatchesManagement();
-echo $openaiBatchesManagement->echoPhrase('Hello, Moontechs!');
+use Moontechs\OpenAIManagement\OpenAIManagementPlugin;
+
+->plugins([
+    new OpenAIManagementPlugin,
+])
 ```
 
-## Testing
+### Jobs
 
-```bash
-composer test
-```
+[Schedule](https://laravel.com/docs/11.x/scheduling) the following CLI commands:
 
-## Changelog
+* `php artisan openai-management:files:update` - uploads new files to an OpenAI storage and updates already uploaded files statuses
+* `php artisan openai-management:batches:update` - sends files batch processing requests and updates statuses of the old requests. In case there are no batches in progress, it will send the next batch process request.
+* `php artisan openai-management:processed-files:download` - downloads already processed files
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+### UI (step by step flow)
 
-## Contributing
+1. **Add a project**
+   * Reffer to the OpenAI [documentation](https://help.openai.com/en/articles/9186755-managing-your-work-in-the-api-platform-with-projects) to create new projects or obtain the ID and key of an existing one.
+   * Note: The OpenAI key will be encrypted. Do not regenerate the Laravel `APP_KEY`.
 
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
+![files_list](./screenshots/create_project.png)
 
-## Security Vulnerabilities
+2. **Upload files**
+   * Check the [documentation](https://platform.openai.com/docs/guides/batch/getting-started) to understand the file structure.
+   * Multiple file uploads are supported.
+   * Tags are for internal use only and do not affect API calls.
 
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+![upload_files](./screenshots/files_list.png)
+
+3. **Request Batch Processing**
+   * If a file is in the `processed` status you can request batch processing.
+
+![edit_file](./screenshots/edit_file.png)
+
+4. **Check Batch Status**
+   * Batch processing can take up to 24 hours. You can check the batch status.
+
+![batch_view](./screenshots/batch_view.png)
+
+5. **Download Processed Files**
+   * When the batch is completed, a background job downloads the files to the server. You can then download them locally (a download button will appear).
+
+![edit_file_batch_completed](./screenshots/edit_file_batch_completed.png)
 
 ## Credits
 
@@ -75,4 +107,4 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The AGPL-3.0 License. Please see [License File](LICENSE.md) for more information.
