@@ -1,6 +1,6 @@
 # OpenAI files and batches management 
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/moontechs/filamentphp-openai-management.svg?style=flat-square)](https://packagist.org/packages/moontechs/openai-management)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/moontechs/filamentphp-openai-management.svg?style=flat-square)](https://packagist.org/packages/moontechs/filamentphp-openai-management)
 [![Total Downloads](https://img.shields.io/packagist/dt/moontechs/filamentphp-openai-management.svg?style=flat-square)](https://packagist.org/packages/moontechs/filamentphp-openai-management)
 
 ![files_list](./screenshots/files_list.png)
