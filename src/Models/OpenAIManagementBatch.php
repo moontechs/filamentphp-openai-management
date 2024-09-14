@@ -56,4 +56,9 @@ class OpenAIManagementBatch extends Model
     {
         return config('filamentphp-openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
     }
+
+    public function getDownloadedFileName(): string
+    {
+        return 'processed_'.$this->file->uploaded_file_path_name;
+    }
 }

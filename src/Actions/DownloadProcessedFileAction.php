@@ -29,7 +29,17 @@ class DownloadProcessedFileAction extends Action
         $this->icon(FilamentIcon::resolve('actions::download-action') ?? 'heroicon-m-arrow-down-tray');
 
         $this->action(function (OpenAIManagementBatch $record) {
-            return Storage::disk(config('filamentphp-openai-management.disk'))->download($record->getDownloadedFilePath());
+            if (ob_get_level()) {
+                ob_end_clean();
+            }
+
+            $callback = function () use ($record) {
+                $stream = Storage::disk(config('filamentphp-openai-management.disk'))->readStream($record->getDownloadedFilePath());
+                fpassthru($stream);
+                fclose($stream);
+            };
+
+            return response()->streamDownload($callback, $record->getDownloadedFileName());
         });
 
         $this->visible(function (OpenAIManagementBatch $record) {
