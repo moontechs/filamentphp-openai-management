@@ -3,10 +3,11 @@
 namespace Moontechs\OpenAIManagement\Actions;
 
 use Closure;
+use Filament\Facades\Filament;
 use Filament\Support\Facades\FilamentIcon;
 use Filament\Tables\Actions\Action;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementBatch;
 
 class DownloadProcessedFileAction extends Action
@@ -24,23 +25,19 @@ class DownloadProcessedFileAction extends Action
 
         $this->label('Download');
 
+        $this->url(function (OpenAIManagementBatch $record) {
+            $panel ??= Filament::getCurrentPanel()->getId();
+
+            return URL::route("filament.{$panel}.filamentphp-openai-management.batch.download-file", [
+                'id' => $record->id,
+            ]);
+        });
+
+        $this->openUrlInNewTab();
+
         $this->color('black');
 
         $this->icon(FilamentIcon::resolve('actions::download-action') ?? 'heroicon-m-arrow-down-tray');
-
-        $this->action(function (OpenAIManagementBatch $record) {
-            if (ob_get_level()) {
-                ob_end_clean();
-            }
-
-            $callback = function () use ($record) {
-                $stream = Storage::disk(config('filamentphp-openai-management.disk'))->readStream($record->getDownloadedFilePath());
-                fpassthru($stream);
-                fclose($stream);
-            };
-
-            return response()->streamDownload($callback, $record->getDownloadedFileName());
-        });
 
         $this->visible(function (OpenAIManagementBatch $record) {
             return Arr::get($record->batch_data, 'status') === 'completed' && $record->fileDownloaded();

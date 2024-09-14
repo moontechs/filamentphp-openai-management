@@ -10,7 +10,7 @@ use Moontechs\OpenAIManagement\OpenAI\ClientWrapper;
 
 class OpenAIManagementProcessedFilesDownloadCommand extends Command
 {
-    public $signature = 'openai-management:processed-files:download';
+    public $signature = 'openai-management:batches:download-processed-files';
 
     public $description = 'Downloads processed files from OpenAI';
 

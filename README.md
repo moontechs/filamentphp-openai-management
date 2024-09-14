@@ -68,7 +68,7 @@ use Moontechs\OpenAIManagement\OpenAIManagementPlugin;
 
 * `php artisan openai-management:files:update` - uploads new files to an OpenAI storage and updates already uploaded files statuses
 * `php artisan openai-management:batches:update` - sends files batch processing requests and updates statuses of the old requests. In case there are no batches in progress, it will send the next batch process request.
-* `php artisan openai-management:processed-files:download` - downloads already processed files
+* `php artisan openai-management:batches:download-processed-files` - downloads already processed batches (files)
 
 ### UI (step by step flow)
 
