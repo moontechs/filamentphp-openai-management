@@ -5,6 +5,7 @@ namespace Moontechs\OpenAIManagement\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class OpenAIManagementBatch extends Model
@@ -56,6 +57,11 @@ class OpenAIManagementBatch extends Model
     }
 
     public function getDownloadedFileName(): string
+    {
+        return Arr::get($this->batch_data, 'output_file_id').'.jsonl';
+    }
+
+    public function getFileNameForDownloadAction(): string
     {
         return 'processed_'.$this->file->uploaded_file_path_name;
     }

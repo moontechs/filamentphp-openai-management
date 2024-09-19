@@ -23,6 +23,6 @@ class DownloadFileController extends Controller
             fclose($stream);
         };
 
-        return response()->streamDownload($callback, $record->getDownloadedFileName());
+        return response()->streamDownload($callback, $record->getFileNameForDownloadAction());
     }
 }
