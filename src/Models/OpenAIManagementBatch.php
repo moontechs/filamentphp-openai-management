@@ -43,7 +43,7 @@ class OpenAIManagementBatch extends Model
 
     public function getDownloadedFileFullPath(): string
     {
-        return Storage::disk(config('filamentphp-openai-management.disk'))
+        return Storage::disk(config('filamentphp-openai-management.download-disk'))
             ->path($this->getDownloadedFilePath());
     }
 

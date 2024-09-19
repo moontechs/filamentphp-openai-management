@@ -34,6 +34,7 @@ This is the contents of the published config file:
 return [
     'disk' => 'local', // you can customize used disk and upload/download folders
     'directory' => 'openai-files',
+    'download-disk' => 'local',
     'download-directory' => 'openai-files-downloads',
 
     'select-options' => [

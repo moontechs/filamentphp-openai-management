@@ -18,8 +18,8 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
     {
         $this->info('Downloading files...');
 
-        if (! Storage::disk(config('filamentphp-openai-management.disk'))->exists(config('filamentphp-openai-management.download-directory'))) {
-            Storage::disk(config('filamentphp-openai-management.disk'))->makeDirectory(config('filamentphp-openai-management.download-directory'));
+        if (! Storage::disk(config('filamentphp-openai-management.download-disk'))->exists(config('filamentphp-openai-management.download-directory'))) {
+            Storage::disk(config('filamentphp-openai-management.download-disk'))->makeDirectory(config('filamentphp-openai-management.download-directory'));
         }
 
         foreach (OpenAIManagementProject::all() as $projectModel) {

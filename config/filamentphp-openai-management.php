@@ -3,6 +3,7 @@
 return [
     'disk' => 'local',
     'directory' => 'openai-files',
+    'download-disk' => 'local',
     'download-directory' => 'openai-files-downloads',
 
     'select-options' => [
