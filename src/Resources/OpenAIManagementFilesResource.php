@@ -53,6 +53,7 @@ class OpenAIManagementFilesResource extends Resource
                         default => 'warning',
                     }),
             ])
+            ->defaultSort('created_at', 'desc')
             ->defaultPaginationPageOption(25)
             ->filters([
                 Tables\Filters\SelectFilter::make('project_id')

@@ -5,8 +5,6 @@ namespace Moontechs\OpenAIManagement\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class OpenAIManagementBatch extends Model
@@ -31,7 +29,7 @@ class OpenAIManagementBatch extends Model
     {
         static::deleted(function (OpenAIManagementBatch $batch) {
             if ($batch->batch_data !== null) {
-                Storage::disk(config('filamentphp-openai-management.disk'))->delete($batch->getDownloadedFilePath());
+                Storage::disk(config('filamentphp-openai-management.download-disk'))->delete($batch->getDownloadedFilePathName());
             }
         });
     }
@@ -41,20 +39,20 @@ class OpenAIManagementBatch extends Model
         return $this->belongsTo(OpenAIManagementFile::class, 'file_id');
     }
 
-    public function getDownloadedFileFullPath(): string
-    {
-        return Storage::disk(config('filamentphp-openai-management.download-disk'))
-            ->path($this->getDownloadedFilePath());
-    }
-
     public function fileDownloaded(): bool
     {
-        return File::exists($this->getDownloadedFileFullPath());
+        return Storage::disk(config('filamentphp-openai-management.download-disk'))
+            ->exists($this->getDownloadedFilePathName());
     }
 
-    public function getDownloadedFilePath(): string
+    public function getDownloadedFilePathName(): string
     {
-        return config('filamentphp-openai-management.download-directory').'/'.Arr::get($this->batch_data, 'output_file_id').'.jsonl';
+        return $this->getDownloadedFolderPath().'/'.$this->getDownloadedFileName();
+    }
+
+    public function getDownloadedFolderPath(): string
+    {
+        return config('filamentphp-openai-management.download-directory').'/'.$this->file->project->name;
     }
 
     public function getDownloadedFileName(): string

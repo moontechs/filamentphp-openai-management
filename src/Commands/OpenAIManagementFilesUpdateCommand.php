@@ -95,7 +95,7 @@ class OpenAIManagementFilesUpdateCommand extends Command
                         'purpose' => 'batch',
                         'file' => fopen(
                             Storage::disk(
-                                config('filamentphp-openai-management.disk_name'),
+                                config('filamentphp-openai-management.disk'),
                             )->path($fileModel->local_file_path_name),
                             'r',
                         ),

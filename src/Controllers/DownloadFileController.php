@@ -10,6 +10,7 @@ class DownloadFileController extends Controller
 {
     public function downloadFile(int $batchId)
     {
+        /** @var OpenAIManagementBatch $record */
         $record = OpenAIManagementBatch::findOrFail($batchId);
 
         if (ob_get_level()) {
@@ -17,7 +18,7 @@ class DownloadFileController extends Controller
         }
 
         $callback = function () use ($record) {
-            $stream = Storage::disk(config('filamentphp-openai-management.disk'))->readStream($record->getDownloadedFilePath());
+            $stream = Storage::disk(config('filamentphp-openai-management.download-disk'))->readStream($record->getDownloadedFilePathName());
             fpassthru($stream);
             fclose($stream);
         };

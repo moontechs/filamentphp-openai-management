@@ -18,10 +18,6 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
     {
         $this->info('Downloading files...');
 
-        if (! Storage::disk(config('filamentphp-openai-management.download-disk'))->exists(config('filamentphp-openai-management.download-directory'))) {
-            Storage::disk(config('filamentphp-openai-management.download-disk'))->makeDirectory(config('filamentphp-openai-management.download-directory'));
-        }
-
         foreach (OpenAIManagementProject::all() as $projectModel) {
             $this->info('Downloading files from project: '.$projectModel->name);
 
@@ -45,7 +41,9 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
             ->get();
 
         foreach ($batches as $batchModel) {
-            $filePath = $batchModel->getDownloadedFilePath();
+            if (! Storage::disk(config('filamentphp-openai-management.download-disk'))->exists($batchModel->getDownloadedFolderPath())) {
+                Storage::disk(config('filamentphp-openai-management.download-disk'))->makeDirectory($batchModel->getDownloadedFolderPath());
+            }
 
             if ($batchModel->fileDownloaded()) {
                 $this->info('File already exists: '.$batchModel->batch_data['output_file_id']);
@@ -55,7 +53,7 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
 
             $openAIClientWrapper->downloadStreamTo(
                 $batchModel->batch_data['output_file_id'],
-                Storage::disk(config('filamentphp-openai-management.disk'))->path($filePath),
+                $batchModel->getDownloadedFilePathName(),
             );
         }
     }
