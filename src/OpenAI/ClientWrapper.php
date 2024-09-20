@@ -54,7 +54,6 @@ class ClientWrapper
                 $path,
                 $resource,
             );
-        fclose($resource);
 
         return $result;
     }
