@@ -59,10 +59,10 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
                 );
 
                 if (! $downloadResult) {
-                    $this->error('Failed to download file: File ID: '.$batchModel->file->id);
+                    $this->error('Failed to download file. File ID: '.$batchModel->file->id);
                 }
             } catch (\Exception $e) {
-                $this->error('Failed to download file: File ID: '.$batchModel->file->id);
+                $this->error('Failed to download file. Wrong response from the API. File ID: '.$batchModel->file->id);
                 Log::error('Filed download file', [
                     'errorMessage' => $e->getMessage(),
                     'statusCode' => $e->getCode(),
