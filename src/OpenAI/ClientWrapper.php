@@ -47,11 +47,16 @@ class ClientWrapper
             throw new \Exception($response->getBody()->getContents(), $response->getStatusCode());
         }
 
-        return Storage::disk(config('filamentphp-openai-management.download-disk'))
+        $resource = StreamWrapper::getResource(Utils::streamFor($response->getBody()));
+
+        $result = Storage::disk(config('filamentphp-openai-management.download-disk'))
             ->writeStream(
                 $path,
-                StreamWrapper::getResource(Utils::streamFor($response->getBody())),
+                $resource,
             );
+        fclose($resource);
+
+        return $result;
     }
 
     public function getOpenAIClient(): Client
