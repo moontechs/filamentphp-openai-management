@@ -30,7 +30,7 @@ class ClientWrapper
         );
     }
 
-    public function downloadStreamTo(string $fileId, string $path): void
+    public function downloadStreamTo(string $fileId, string $path): bool
     {
         $response = $this->httpClient->request(
             'GET',
@@ -43,7 +43,11 @@ class ClientWrapper
             ]
         );
 
-        Storage::disk(config('filamentphp-openai-management.download-disk'))
+        if ($response->getStatusCode() !== 200) {
+            throw new \Exception($response->getBody()->getContents(), $response->getStatusCode());
+        }
+
+        return Storage::disk(config('filamentphp-openai-management.download-disk'))
             ->writeStream(
                 $path,
                 StreamWrapper::getResource(Utils::streamFor($response->getBody())),

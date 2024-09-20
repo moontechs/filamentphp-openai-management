@@ -3,6 +3,7 @@
 namespace Moontechs\OpenAIManagement\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementBatch;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementProject;
@@ -51,10 +52,22 @@ class OpenAIManagementProcessedFilesDownloadCommand extends Command
                 continue;
             }
 
-            $openAIClientWrapper->downloadStreamTo(
-                $batchModel->batch_data['output_file_id'],
-                $batchModel->getDownloadedFilePathName(),
-            );
+            try {
+                $downloadResult = $openAIClientWrapper->downloadStreamTo(
+                    $batchModel->batch_data['output_file_id'],
+                    $batchModel->getDownloadedFilePathName(),
+                );
+
+                if (! $downloadResult) {
+                    $this->error('Failed to download file: File ID: '.$batchModel->file->id);
+                }
+            } catch (\Exception $e) {
+                $this->error('Failed to download file: File ID: '.$batchModel->file->id);
+                Log::error('Filed download file', [
+                    'errorMessage' => $e->getMessage(),
+                    'statusCode' => $e->getCode(),
+                ]);
+            }
         }
     }
 }
