@@ -11,8 +11,6 @@ class CreateOpenAIManagementProjects extends CreateRecord
 {
     protected static string $resource = OpenAIManagementProjectsResource::class;
 
-    // protected static ?string $title = 'Create OpenAI Project';
-
     public function form(Form $form): Form
     {
         $form = parent::form($form);

@@ -6,13 +6,12 @@ use Filament\Actions;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Database\Eloquent\Model;
 use Moontechs\OpenAIManagement\Resources\OpenAIManagementProjectsResource;
 
 class EditOpenAIManagementProjects extends EditRecord
 {
     protected static string $resource = OpenAIManagementProjectsResource::class;
-
-    protected static ?string $title = 'Edit OpenAI Project';
 
     protected function getHeaderActions(): array
     {
@@ -33,8 +32,19 @@ class EditOpenAIManagementProjects extends EditRecord
                 ->label('OpenAI Project ID')
                 ->required()
                 ->unique(ignoreRecord: true),
+            TextInput::make('new_key')
+                ->password(),
         ]);
 
         return $form;
+    }
+
+    protected function handleRecordUpdate(Model $record, array $data): Model
+    {
+        if (! empty($data['new_key'])) {
+            $data['key'] = $data['new_key'];
+        }
+
+        return parent::handleRecordUpdate($record, $data);
     }
 }

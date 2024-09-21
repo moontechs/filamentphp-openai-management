@@ -24,6 +24,10 @@ class OpenAIManagementProject extends Model
         static::creating(function (OpenAIManagementProject $project) {
             $project->key = Crypt::encrypt($project->key);
         });
+
+        static::updating(function (OpenAIManagementProject $project) {
+            $project->key = Crypt::encrypt($project->key);
+        });
     }
 
     public function files(): HasMany
