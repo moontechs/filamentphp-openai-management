@@ -46,7 +46,17 @@ class OpenAIManagementFilesUpdateCommand extends Command
         foreach (OpenAIManagementProject::all() as $projectModel) {
             $this->info('Uploading files from project: '.$projectModel->name);
 
-            $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
+            try {
+                $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
+            } catch (DecryptException $exception) {
+                $this->error('Error decrypting project key: '.$projectModel->id.PHP_EOL.$exception->getMessage());
+                Log::error('Error decrypting project key', [
+                    'projectId' => $projectModel->id,
+                    'error' => $exception->getMessage(),
+                ]);
+
+                continue;
+            }
 
             $this->uploadFiles($openAIClient, $projectModel);
         }
