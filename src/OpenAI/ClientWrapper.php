@@ -46,7 +46,6 @@ class ClientWrapper
                 'headers' => [
                     'Authorization' => 'Bearer '.Crypt::decrypt($this->key),
                 ],
-                'stream' => true,
             ]
         );
 
