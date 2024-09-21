@@ -4,6 +4,7 @@ namespace Moontechs\OpenAIManagement\OpenAI;
 
 use GuzzleHttp\Psr7\StreamWrapper;
 use GuzzleHttp\Psr7\Utils;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementProject;
@@ -18,6 +19,9 @@ class ClientWrapper
         private readonly string $key,
     ) {}
 
+    /**
+     * @throws DecryptException
+     */
     public static function make(OpenAIManagementProject $projectModel): ClientWrapper
     {
         return new self(
@@ -30,6 +34,9 @@ class ClientWrapper
         );
     }
 
+    /**
+     * @throws DecryptException
+     */
     public function downloadStreamTo(string $fileId, string $path): bool
     {
         $response = $this->httpClient->request(

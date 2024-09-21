@@ -3,6 +3,7 @@
 namespace Moontechs\OpenAIManagement\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Log;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementBatch;
@@ -36,7 +37,17 @@ class OpenAIManagementBatchesUpdateCommand extends Command
         foreach (OpenAIManagementProject::all() as $projectModel) {
             $this->info('Creating batches from project: '.$projectModel->name);
 
-            $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
+            try {
+                $openAIClient = ClientWrapper::make($projectModel)->getOpenAIClient();
+            } catch (DecryptException $exception) {
+                $this->error('Error decrypting project key: '.$projectModel->id.PHP_EOL.$exception->getMessage());
+                Log::error('Error decrypting project key', [
+                    'projectId' => $projectModel->id,
+                    'error' => $exception->getMessage(),
+                ]);
+
+                continue;
+            }
 
             $this->createBatch($openAIClient, $projectModel);
         }
