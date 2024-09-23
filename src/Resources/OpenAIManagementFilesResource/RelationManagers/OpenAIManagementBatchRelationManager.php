@@ -2,13 +2,12 @@
 
 namespace Moontechs\OpenAIManagement\Resources\OpenAIManagementFilesResource\RelationManagers;
 
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Support\Arr;
 use Moontechs\OpenAIManagement\Actions\DownloadProcessedFileAction;
+use Moontechs\OpenAIManagement\Forms\CreateBatchForm;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementBatch;
 
 class OpenAIManagementBatchRelationManager extends RelationManager
@@ -19,30 +18,7 @@ class OpenAIManagementBatchRelationManager extends RelationManager
 
     public function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                Forms\Components\Select::make('endpoint')
-                    ->options(config('filamentphp-openai-management.select-options.batch-endpoint'))
-                    ->required(),
-                Forms\Components\TextInput::make('completion_window')
-                    ->required()
-                    ->default('24h')
-                    ->maxLength(255),
-                Forms\Components\KeyValue::make('batch_data')
-                    ->visible(fn (string $context, ?OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
-                Forms\Components\KeyValue::make('batch_data.request_counts')
-                    ->visible(fn (string $context, ?OpenAIManagementBatch $record) => $context === 'view' && $record->batch_data !== null),
-                Forms\Components\KeyValue::make('batch_data.errors')
-                    ->visible(function (string $context, ?OpenAIManagementBatch $record) {
-                        if ($context === 'view') {
-                            if ($record !== null) {
-                                return Arr::get($record->batch_data, 'errors') !== null;
-                            }
-                        }
-
-                        return false;
-                    }),
-            ]);
+        return $form->schema(CreateBatchForm::getFormSchema());
     }
 
     public function table(Table $table): Table

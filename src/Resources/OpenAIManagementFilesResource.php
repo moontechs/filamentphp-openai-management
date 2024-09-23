@@ -6,6 +6,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Moontechs\OpenAIManagement\Actions\CreateBatchesBulkAction;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementFile;
 use Moontechs\OpenAIManagement\Models\OpenAIManagementProject;
 use Moontechs\OpenAIManagement\Repositories\OpenAIManagementFileRepository;
@@ -76,14 +78,22 @@ class OpenAIManagementFilesResource extends Resource
                     ->multiple(),
                 Tables\Filters\SelectFilter::make('purpose')
                     ->options(fn () => config('filamentphp-openai-management.select-options.file-purpose')),
+                Tables\Filters\TernaryFilter::make('have_created_batches')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereHas('batches'),
+                        false: fn (Builder $query) => $query->whereDoesntHave('batches'),
+                        blank: fn (Builder $query) => $query,
+                    ),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
+                    CreateBatchesBulkAction::make('Create Batches'),
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+
             ]);
     }
 
